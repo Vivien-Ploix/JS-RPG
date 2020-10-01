@@ -9,7 +9,7 @@ class Paladin extends Character {
       console.log("mana insuffisant");
     } else {
       console.log(
-        `${this.name} utilise Healing Lightning. Il récupère 5 de vie, et inflige 4 points de dégâts à ${victim.name}`
+        `${this.name} utilise Healing Lightning. Il recupere 5 de vie, et inflige 4 points de degats a ${victim.name}`
       );
       victim.takeDamage(4);
       this.hp += 5;

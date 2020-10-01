@@ -8,10 +8,10 @@ class Character {
 
   dealDamage = (victim) => {
     if (victim.hp <= 0) {
-      console.log("La cible est déjà morte.");
+      console.log("La cible est deja morte.");
     } else {
       console.log(
-        `${this.name} attaque ${victim.name} et lui inflige ${this.dmg} dégats!`
+        `${this.name} attaque ${victim.name} et lui inflige ${this.dmg} degats!`
       );
       victim.takeDamage(this.dmg);
     }
@@ -21,7 +21,7 @@ class Character {
     if (this instanceof Fighter && this.shield == true) {
       this.hp -= dmg - 2;
     } else if (this instanceof Assassin && this.chargedSpecial === "charged") {
-      console.log("This player can't take damage this turn");
+      console.log("Ce personnage ne peut pas prendre de degats ce tour-ci");
     } else {
       this.hp -= dmg;
     }

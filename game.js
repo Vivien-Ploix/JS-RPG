@@ -4,6 +4,10 @@ class Game {
     this.characters = characters;
   }
 
+  addCharacter = (character) => {
+    this.characters.push(character);
+  };
+
   skipTurn = () => {
     this.turnLeft -= 1;
   };
@@ -24,16 +28,18 @@ class Game {
     var carl = new Assassin();
     carl.name = "Carl";
     this.characters.push(grace, ulder, moana, draven, carl);
-    console.log("Personnages créés :");
+    console.log("Personnages crees :");
     console.log(this.characters);
   };
 
   watchStats = () => {
-    this.characters.forEach((player) =>
-      console.log(
-        `${player.name} : HP : ${player.hp}, Mana : ${player.mana}, Dmg : ${player.dmg}`
-      )
-    );
+    this.characters.forEach((character) => {
+      if (character.hp > 0) {
+        console.log(
+          `${character.name} : HP : ${character.hp}, Mana : ${character.mana}, Dmg : ${character.dmg}`
+        );
+      }
+    });
   };
 
   actionChoice = (character) => {
@@ -43,7 +49,7 @@ class Game {
     ) {
     } else {
       var userChoice = prompt(
-        `${character.name}, quelle action voulez-vous effectuer? 1: attaque normale, 2: Attaque spéciale`
+        `${character.name}, quelle action voulez-vous effectuer? 1: attaque normale, 2: Attaque speciale`
       );
     }
     return userChoice;
@@ -61,7 +67,7 @@ class Game {
       }
     });
     var targetChoice = prompt(
-      `Quel est le numéro de la cible que vous voulez viser?`
+      `Quel est le numero de la cible que vous voulez viser?`
     );
     var victim = this.characters.find(
       (character) =>
@@ -101,7 +107,7 @@ class Game {
   };
 
   shuffle = () => {
-    var shuffledArray = this.characters;
+    var shuffledArray = [...this.characters];
     var currentIndex = shuffledArray.length,
       temporaryValue,
       randomIndex;
@@ -125,7 +131,7 @@ class Game {
     var shuffledArray = this.shuffle();
     shuffledArray.map((character) => {
       if (character.hp > 0) {
-        console.log(`${character.name}, c'est à vous de jouer.`);
+        console.log(`${character.name}, c'est a vous de jouer.`);
         if (
           character instanceof Assassin &&
           character.chargedSpecial === "charged"
@@ -139,20 +145,40 @@ class Game {
       }
     });
   };
+
+  gameFinish = () => {
+    if (this.characters.filter((character) => character.hp > 0).length === 1) {
+      var winner = this.characters.filter((character) => character.hp > 0)[0];
+      winner.status = "winner";
+      console.log(
+        `Bravo ${winner.name} pour etre le dernier survivant et avoir vaincu tout le monde !`
+      );
+    } else {
+      const sorted = [...this.characters].sort();
+      var highestHpCharacter = sorted.sort(function (a, b) {
+        return b.hp - a.hp;
+      })[0];
+      var winner = highestHpCharacter;
+      console.log(
+        `Bravo ${winner.name} pour etre le survivant en meilleur etat !`
+      );
+    }
+  };
+
+  startGame = () => {
+    this.createcharacters();
+    while (
+      game.turnLeft > 0 &&
+      game.characters.filter((character) => character.hp > 0).length > 1
+    ) {
+      game.startTurn();
+      game.watchStats();
+      game.chainTurns();
+      game.skipTurn();
+    }
+    game.gameFinish();
+  };
 }
 
-function startGame() {
-  let game = new Game();
-  game.createcharacters();
-  while (
-    game.turnLeft > 0 &&
-    game.characters.filter((character) => character.hp > 0).length > 1
-  ) {
-    game.startTurn();
-    game.watchStats();
-    game.chainTurns();
-    game.skipTurn();
-  }
-}
-
-startGame();
+let game = new Game();
+game.startGame();

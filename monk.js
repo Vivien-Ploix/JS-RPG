@@ -22,6 +22,7 @@ class Monk extends Character {
         victim.hp += 8;
       }
       this.mana -= 25;
+      console.log(`${this.name} a soigne ${victim.name} jusqu'a 8 HP`);
     }
   };
 }

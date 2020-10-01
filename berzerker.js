@@ -6,6 +6,9 @@ class Berzerker extends Character {
   }
 
   specialAttack = () => {
+    console.log(
+      `${this.name} devient berserk et gagne 1 points de dmg permanent quand il attaque, mais perd 1 de vie max`
+    );
     this.max_hp -= 1;
     this.dmg += 1;
   };
